@@ -1,0 +1,104 @@
+@import url(style.index.css);
+@import url(style.alert.css);
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+h1 {
+  text-transform: uppercase;
+}
+table {
+  width: max(100%, 1128px);
+  border-spacing: 0;
+  text-align: center;
+}
+th {
+  font-size: large;
+  text-transform: uppercase;
+  height: 3rem;
+  border-bottom: 8px solid #444;
+}
+th:not(:last-child) {
+  border-right: 8px solid #444;
+}
+td {
+  text-transform: capitalize;
+}
+td:not(:last-child) {
+  border-right: 8px solid #4447;
+}
+tr {
+  height: 3em;
+  position: relative;
+}
+tr:nth-of-type(2n) {
+  background: #4447;
+}
+.mb-3 {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  grid-template-rows: repeat(2, 2rem);
+}
+.mb-3:not(:last-child) {
+  margin-bottom: 1rem;
+}
+small {
+  grid-column: 1/-1;
+}
+form {
+  align-items: center;
+  box-shadow: 1rem 1rem 1rem var(--form-shadow);
+  width: max(600px, 50vw);
+}
+.form-heading {
+  width: 100%;
+}
+input[type="button"]:hover {
+  font-weight: bolder;
+  color: crimson;
+}
+.modal {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  backdrop-filter: blur(8px);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+input[type="button"].open-modal:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+#detteBox {
+  display: none;
+}
+:has(#isDette:checked) + #detteBox {
+  display: grid;
+}
+.pointer-none {
+  pointer-events: none;
+}
+button#modify {
+  color: inherit;
+  width: fit-content;
+  height: 2em;
+  padding: 0 0.15em;
+  margin: auto;
+  font-size: small;
+  position: absolute;
+  z-index: 2;
+  display: none;
+  transition: display 0.3s ease-in-out;
+}
+tr:hover > button#modify {
+  display: block;
+}
+
+@media (preferred-color-scheme = "light") {
+  body {
+    filter: hue-rotate(180);
+  }
+}

@@ -1,0 +1,116 @@
+@font-face {
+    font-family: Cascadia code;
+    src: url(../font/CascadiaCode.woff2) format(woff2);
+    font-weight: 0 1000;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+:root {
+    --body-bgc: #222;
+    --form-bgc: hsl(0, 0%, 15%);
+    --form-shadow: rgba(0, 0, 0, 0.3);
+    --input-hover: #333;
+    --gradient: linear-gradient(180deg, rgba(255, 255, 0), rgb(255, 0, 255));
+}
+@media (color-scheme: light) {
+    :root {
+        --body-bgc: #ddd;
+        --form-bgc: hsl(0, 100%, 85%);
+    }
+}
+html {
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    font-family: Cascadia code, system-ui, -apple-system, Arial, sans-serif;
+    background-color: var(--body-bgc);
+}
+
+form {
+    width: max(6rem, 40vw);
+    width: max(6rem, 40svw);
+    padding: 0 3rem 3rem 3rem;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    border-radius: 0.25rem;
+    background: var(--form-bgc);
+    box-shadow: 12px 12px 6px var(--form-shadow);
+}
+.title {
+    background: var(--gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 3rem 0;
+}
+.form-label {
+    font-size: 1.25rem;
+}
+input {
+    display: inline-block;
+    width: 20rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-color: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    position: relative;
+    transition: background 0.25s;
+}
+input:is(:hover, :focus-within) {
+    background: var(--input-hover);
+    outline: none;
+}
+small {
+    display: none;
+    opacity: 0;
+    margin: 0.5rem 0 0.5rem 7rem;
+    color: hsl(0, 75%, 50%);
+    transition: opacity 0.25s;
+}
+
+button {
+    width: fit-content;
+    font-family: inherit;
+    font-size: large;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    cursor: pointer;
+}
+span {
+    padding: 2rem 0 0 0;
+    opacity: 0.8;
+}
+a {
+    text-decoration: none;
+    transition: text-decoration 0.5s;
+}
+
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+.a {
+    margin-bottom: 2rem;
+}
+.show-password {
+    display: inline-block;
+    font-size: 1rem;
+    margin: 0;
+    background-color: #424242;
+    border: none;
+}

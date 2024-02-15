@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bananes</title>
+    <link rel="stylesheet" href="/css/style.next.css" />
+    <link
+      rel="shortcut icon"
+      href="/images/favicon-32x32.png"
+      type="image/x-icon"
+    />
+    <link rel="manifest" href="/images/site.webmanifest.json" />
+  </head>
+  <body>
+    <div class="data-input modal">
+      <form method="post" action="/next">
+        <div class="form-heading">
+          <h1 class="title">Donnée Journalière</h1>
+          <input
+            class="close-modal"
+            type="button"
+            value="&times;"
+            title="Appuiyer sur Esc"
+            style="
+              background: none;
+              width: min-content;
+              height: min-content;
+              font-size: 2.5rem;
+              position: absolute;
+              right: 0;
+              top: 0;
+              cursor: pointer;
+            "
+          />
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input type="date" name="date" id="date" />
+          <small
+            id="helpId"
+            class="text-muted"
+            style="display: block; opacity: 1; color: #888; cursor: default"
+          >
+            Date d'aujourd'hui (Par défaut)</small
+          >
+        </div>
+        <div class="mb-3">
+          <label for="achats" class="form-label">Achats</label>
+          <input type="text" inputmode="numeric" name="achats" id="achats"
+          value="<%= (typeof achats === "undefined")? "" : achats %>"
+          pattern="[0-9]*"/>
+        </div>
+        <div class="mb-3">
+          <label for="produits" class="form-label">Produits</label>
+          <input type="text" inputmode="numeric" name="produits" id="produits"
+          pattern="[0-9]*" value="<%= (typeof produits === "undefined")? "" :
+          produits %>" />
+        </div>
+        <div class="mb-3">
+          <label for="ventes" class="form-label">Ventes</label>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" name="ventes"
+          id="ventes" value="<%= (typeof ventes === "undefined")? "" : ventes
+          %>" />
+        </div>
+        <div class="mb-3">
+          <label>Dette</label>
+          <input type="checkbox" id="isDette" />
+        </div>
+        <div class="mb-3" id="detteBox">
+          <label for="dette">Dette? Combien...</label>
+          <input type="text" inputmode="numeric" name="dette" id="dette" pattern="[0-9]*"/>
+        </div>
+        <button id="save" type="submit">Sauvegarder</button>
+      </form>
+    </div>
+    <h1 data-month-year></h1>
+    <input
+      type="button"
+      value="Ajouter Les Données"
+      title="Appuiyer sur 'A' pour Ouvrir"
+      class="open-modal"
+      style="
+        position: absolute;
+        right: 2rem;
+        top: 1rem;
+        background: none;
+        cursor: pointer;
+        width: min-content;
+      "
+    />
+    <input
+      type="button"
+      value="Voir Les Données"
+      class="open-modal"
+      style="
+        position: absolute;
+        left: 2rem;
+        top: 1rem;
+        background: none;
+        cursor: pointer;
+        width: min-content;
+      "
+      onclick="window.open('/donee', '_blank');"
+    />
+    <table class="table">
+      <thead>
+        <th>Dates</th>
+        <th>Achats</th>
+        <th>Produits</th>
+        <th>Stocks</th>
+        <th>Ventes</th>
+        <th>Restes</th>
+      </thead>
+      <tbody class="table-body"></tbody>
+    </table>
+
+    <%# include("partials/msg.succes.ejs") %>
+
+
+    <template id="template-row-info">
+      <tr>
+        <td data-dates></td>
+        <td data-achats></td>
+        <td data-produits></td>
+        <td data-stocks></td>
+        <td data-ventes></td>
+        <td data-restes></td>
+        <button type="button" id="modify">Modifier</button>
+      </tr>
+    </template>
+    <script src="next.js" type="module"></script>
+    <% if (typeof error !== "undefined") { %>
+    <script>
+      alert("<%= error %>");
+    </script>
+    <% } %> 
+  </body>
+</html>

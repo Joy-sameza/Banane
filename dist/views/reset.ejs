@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+  <body>
+    <form id="form-reset">
+      <div class="form-heading">
+        <h1 class="title" style="font-size: 2rem">Changer le mot de passe</h1>
+      </div>
+
+      <div class="mb-3 a">
+        <label for="password" class="form-label">Nouveau mot de passe</label>
+        <input
+          type="password"
+          name="password"
+          id="password1"
+          placeholder="f68f@Hd8J5d*"
+          autocomplete="new-password"
+        />
+        <button type="button" class="show-password" id="show1">Show</button>
+        <small id="helpId1" class="text-muted"></small>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label"
+          >Re-enter le Mot de passe</label
+        >
+        <input
+          type="password"
+          name="password"
+          id="password2"
+          placeholder="f68f@Hd8J5d*"
+          autocomplete="new-password"
+        />
+        <button type="button" class="show-password" id="show2">Show</button>
+        <small id="helpId2" class="text-muted"></small>
+      </div>
+      <button type="submit" id="submit">Sauvegarder</button>
+    </form>
+    <%- include('partials/submitscript.ejs') %> 
+    <% if (typeof error !== "undefined") { %>
+    <script>
+      const s = document.querySelector("#helpId");
+      s.textContent = error;
+      s.style.display = "block";
+      setTimeout(() => (s.style.opacity = "1"), 100);
+      setTimeout(() => {
+        s.style.opacity = "0";
+        s.style.display = "none";
+      }, 5_000);
+    </script>
+    <% } %>
+    <script src="main2.js"></script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs') %>
+  <body>
+    <form id="form-login" action="/" method="POST">
+      <div class="form-heading">
+        <h1 class="title">Se Connecter</h1>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="f68f@Hd8J5d*"
+          autocomplete="current-password"
+          autofocus
+        />
+        <button type="button" class="show-password">Show</button>
+        <small id="helpId" class="text-muted"></small>
+      </div>
+      <span>Mot de passe oublié? <a href="/reset">Changer le</a></span>
+      <button type="submit" id="submit">Suivant</button>
+    </form>
+    <%- include('partials/submitscript.ejs') %>
+    <script src="main.js" type="module"></script>
+    <% if (typeof error !== "undefined") { %>
+    <script>
+      const s = document.querySelector("#helpId");
+      s.textContent = "<%= error %>";
+      s.style.display = "block";
+      setTimeout(() => (s.style.opacity = "1"), 100);
+      setTimeout(() => {
+        s.style.opacity = "0";
+        s.style.display = "none";
+      }, 5_000);
+    </script>
+    <% } %>
+  </body>
+</html>

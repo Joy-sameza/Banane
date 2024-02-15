@@ -1,0 +1,32 @@
+<script>
+  /**
+   * @param {HTMLFormElement} data - The form data.
+   * @param {string} path - The path to send the form data to.
+   * @returns {Promise<string>}
+   */
+  async function submitPasswordUsingFetch(data, path) {
+    const response = await fetch(path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.text();
+    return result;
+  }
+
+  /**
+   * Displays a help message with a fade-in and fade-out effect.
+   *
+   * @param {HTMLElement} helpId - The element representing the help message.
+   */
+  function helpMsg(helpId) {
+    helpId.style.display = "block";
+    setTimeout(() => (helpId.style.opacity = "1"), 100);
+    setTimeout(() => {
+      helpId.style.opacity = "0";
+      helpId.style.display = "none";
+    }, 5_000);
+  }
+</script>

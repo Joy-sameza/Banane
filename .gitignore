@@ -1,0 +1,11 @@
+node_modules
+dist/auth
+dist/db
+dist/routes
+dist/public/theme
+dist/*.js
+build
+package-lock.json
+.vscode
+bin
+.env
