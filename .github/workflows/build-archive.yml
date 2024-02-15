@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Add Banane SQLite database file
+        run: touch bin/bananesdb.db
+
       - name: Build app
         run: npm run build
 
@@ -28,7 +31,7 @@ jobs:
         run: |
           zip -r project.zip .
           find . -type f -not -path "./src/*" -not -name "project.zip" -delete
-          find . -type f -not -path "./node_modules/*" -not -name "project.zip" -delete
+          find . -type f -not -path "./.github/*" -not -name "project.zip" -delete
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
