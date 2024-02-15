@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Remove src and .gthub folder
-        run: rm -rf src .github
+        run: rm -rf src .github .git
 
       - name: Uninstall DevDependencies
         run: npm prune --production
@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: project
-          path: project.zip
+          path: .
