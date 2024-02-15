@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Add Banane SQLite database file
-        run: touch bin/bananesdb.db
+        run: echo > bin/bananesdb.db
 
       - name: Build app
         run: npm run build
