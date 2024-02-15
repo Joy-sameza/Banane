@@ -33,9 +33,9 @@ jobs:
       - name: Uninstall DevDependencies
         run: npm prune --production
 
-      - name: Archive project
-        run: |
-          zip -r project.zip .
+    #   - name: Archive project
+    #     run: |
+    #       zip -r project.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
