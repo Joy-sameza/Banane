@@ -28,9 +28,10 @@ jobs:
         run: |
           zip -r project.zip .
           find . -type f -not -path "./src/*" -not -name "project.zip" -delete
+          find . -type f -not -path "./node_modules/*" -not -name "project.zip" -delete
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: project
           path: project.zip
