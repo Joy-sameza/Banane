@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Remove src, .git and .gthub folder
-        run: rm -rf src .github .git
+        run: rm -rf src .github .git tsconfig.json
 
       - name: Add .env file
         run: |
