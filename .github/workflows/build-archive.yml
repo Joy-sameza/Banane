@@ -27,15 +27,18 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Remove src and .gthub folder
+      - name: Remove src, .git and .gthub folder
         run: rm -rf src .github .git
+
+      - name: Add .env file
+        run: |
+          echo "NODE_ENV=${{secrets.NODE_ENV}}" > .env
+          echo "PORT=${{secrets.PORT}}" >> .env
+          echo "SQLITE_DB_PATH=${{secrets.SQLITE_DB_PATH}}" >> .env
+          echo "ACCESS_TOKEN_SECRET=${{secrets.ACCESS_TOKEN_SECRET}}" >> .env
 
       - name: Uninstall DevDependencies
         run: npm prune --production
-
-    #   - name: Archive project
-    #     run: |
-    #       zip -r project.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
