@@ -27,11 +27,15 @@ jobs:
       - name: Build app
         run: npm run build
 
+      - name: Remove src and .gthub folder
+        run: rm -rf src .github
+
+      - name: Uninstall DevDependencies
+        run: npm prune --production
+
       - name: Archive project
         run: |
           zip -r project.zip .
-          find . -type f -not -path "./src/*" -not -name "project.zip" -delete
-          find . -type f -not -path "./.github/*" -not -name "project.zip" -delete
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
