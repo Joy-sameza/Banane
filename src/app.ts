@@ -26,7 +26,6 @@ app.use(json());
 
 // static files
 app.use(express.static(join(__dirname, "public")));
-console.log(__dirname)
 // Routes
 app.use("/", indexRouter);
 app.use("/next", nextRouter);
@@ -34,4 +33,4 @@ app.use("/reset", resetRouter);
 app.use("/donee", doneeRouter);
 app.use("/data", dataRouter);
 
-app.listen(port || 3000, () => logger.log("listening on port " + port || 3000));
+app.listen(port || 3000, () => logger.log("listening on port http://localhost:" + port || 3000));

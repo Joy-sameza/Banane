@@ -1,8 +1,8 @@
 import { createWriteStream } from "fs";
 import { Console } from "console";
 import { config } from "dotenv";
-const output = createWriteStream("logs/stdout.log");
-const errorOutput = createWriteStream("logs/stderr.log");
+const output = createWriteStream("logs/standard_output.log");
+const errorOutput = createWriteStream("logs/standard_error.log");
 config();
 // Custom simple logger
 

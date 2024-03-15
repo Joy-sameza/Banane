@@ -70,7 +70,13 @@
         </div>
         <div class="mb-3" id="detteBox">
           <label for="dette">Dette? Combien...</label>
-          <input type="text" inputmode="numeric" name="dette" id="dette" pattern="[0-9]*"/>
+          <input
+            type="text"
+            inputmode="numeric"
+            name="dette"
+            id="dette"
+            pattern="[0-9]*"
+          />
         </div>
         <button id="save" type="submit">Sauvegarder</button>
       </form>
@@ -104,8 +110,8 @@
       "
       onclick="window.open('/donee', '_blank');"
     />
-    <table class="table">
-      <thead>
+    <table class="table" style="position: relative">
+      <thead style="position: sticky; top: 0; z-index: 1; background-color: #222;">
         <th>Dates</th>
         <th>Achats</th>
         <th>Produits</th>
@@ -117,7 +123,6 @@
     </table>
 
     <%# include("partials/msg.succes.ejs") %>
-
 
     <template id="template-row-info">
       <tr>
@@ -135,6 +140,6 @@
     <script>
       alert("<%= error %>");
     </script>
-    <% } %> 
+    <% } %>
   </body>
 </html>

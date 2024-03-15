@@ -10,12 +10,14 @@ router.get("/", authenticateToken, (_req, res) => {
   res.render("next", { page: "next" });
 });
 
-router.post("/", authenticateToken, async (req, res) => {
+router.post("/", authenticateToken, (req, res) => {
   const { date, achats, produits, ventes, dette } = req.body;
   let [year, month, day] = date.split("-") as [string, string, string];
 
-  let query = `SELECT id, max(date) as date, restes FROM gestion_de_stock where  "date" < "${day}/${month}/${year}"`; /*ORDER BY id DESC LIMIT 1`;*/
-  if (day == '1') {
+  const normalDate: [string, string, string] = [day, month, year];
+  let sqlDate = date; //`${day}/${month}/${year}`;
+  let query = `SELECT id, MAX("date") as latest_date, restes FROM gestion_de_stock WHERE "date" < '${sqlDate}'`;
+  if (parseInt(day) === 1) {
     let _month = parseInt(month) - 1;
     if (_month == 0) {
       _month = 12;
@@ -27,17 +29,17 @@ router.post("/", authenticateToken, async (req, res) => {
       numberOFDAys[1] = 29;
     }
     day = numberOFDAys[_month - 1].toString();
-    query = `SELECT id, max(date) as date, restes FROM gestion_de_stock where  "date" < "${day}/${month}/${year}" or "date" = "${day}/${month}/${year}"`;
+    sqlDate = `${day}/${month}/${year}`;
+    query = `SELECT id, max(date) as date, restes FROM gestion_de_stock where  "date" <= "${sqlDate}"`;
   }
 
   try {
-    db.all(query, async (err, rows) => {
+    db.all(query, (err, rows) => {
       if (err) throw err;
       const index = rows.length - 1;
       const lastRow: any = rows[index < 0 ? 0 : index];
-      console.log({ lastRow });
 
-      saveData(lastRow, produits, ventes, day, month, year, dette, achats);
+      saveData(lastRow, produits, ventes, ...normalDate, dette, achats);
       const msg = "Donné enregistré avec succès";
       res.render("next", {
         success: msg,
@@ -84,7 +86,7 @@ function saveData(
   db.run(
     query,
     [
-      `${day}/${month}/${year}`,
+      `${year}-${month}-${day}`,
       dette ?? 0,
       achats ?? 0,
       produits ?? 0,
