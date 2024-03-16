@@ -1,7 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs') %>
-<body>
-    
-</body>
+  <%- include('partials/head.ejs') %>
+  <body>
+    <main>
+      <%- include('partials/parser.ejs') %>
+      <div class="page-title">
+        <h1 class="title">Donnée de 2024</h1>
+      </div>
+      <div class="card-grid">
+        <a href="/donee?query=2024-01">
+          <div class="card">
+            <div class="card-title">
+              <h2 class="title">January</h2>
+            </div>
+            <hr />
+            <div class="card-body">
+              <div class="cell">
+                <div class="name">Achats</div>
+                <div class="value">10000</div>
+              </div>
+              <div class="cell">
+                <div class="name">Production</div>
+                <div class="value">100000</div>
+              </div>
+              <div class="cell">
+                <div class="name">Ventes</div>
+                <div class="value">99500</div>
+              </div>
+              <div class="cell">
+                <div class="name">Depences</div>
+                <div class="value">25000</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </main>
+    <script type="module" defer>
+      const response = localStorage.getItem("bananes_data");
+      const data = JSON.parse(response);
+
+      const data2024 = Array.from(data).filter(
+        (d) =>
+          Date.parse(d.date) >=
+          Date.parse(new Date().getFullYear().toString() + "-01-01")
+      );
+      for (const row of data2024) {
+        console.log(data2024.length);
+      }
+
+      //   registerWorker();
+
+      //   async function registerWorker() {
+      //     if (!(serviceWorker in navigator)) {
+      //       alert("Service Worker not supported. Please upgrade your browser.");
+      //     }
+      //     try {
+      //       const registration = await navigator.serviceWorker.register(
+      //         "./sw_donee.js",
+      //         {
+      //           scope: "/donee",
+      //           type: "module",
+      //           updateViaCache: "none",
+      //         }
+      //       );
+      //       if (registration.installing) {
+      //         console.log("Service worker installing");
+      //       } else if (registration.waiting) {
+      //         console.log("Service worker installed");
+      //       } else if (registration.active) {
+      //         console.log("Service worker active");
+      //       }
+      //     } catch (error) {
+      //       console.error(`Registration failed with ${error}`);
+      //     }
+      //   }
+    </script>
+  </body>
 </html>

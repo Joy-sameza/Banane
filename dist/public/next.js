@@ -7,9 +7,9 @@ const rowInfoTemplate = document.querySelector("#template-row-info");
 const tableBody = document.querySelector(".table-body");
 
 let response = await fetch("./data");
-// Save response to localStorage for later use
-localStorage.setItem("response", response);
 const data = await response.json();
+// Save response to localStorage for later use
+localStorage.setItem("bananes_data", JSON.stringify(data));
 
 const Day = new Map();
 const dayOfWeek = "Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche".split(
@@ -66,8 +66,7 @@ modal.querySelector("#date").value = `${today.year}-${mm}-${dd}`;
 const thisMonth = new Date().getMonth() + 1;
 const output = data.filter(
   (row) =>
-    row.date.split("/")[2] == today.year &&
-    row.date.split("/")[1] == thisMonth
+    row.date.split("/")[2] == today.year && row.date.split("/")[1] == thisMonth
 );
 
 updateTableData(output);
@@ -87,7 +86,9 @@ function updateTableData(data) {
   const fragment = document.createDocumentFragment();
   let counter = 0;
   for (const dt of data) {
-    dt.day = new Date(dt.date.split('/').reverse().join('-')).toLocaleDateString("fr", {
+    dt.day = new Date(
+      dt.date.split("/").reverse().join("-")
+    ).toLocaleDateString("fr", {
       weekday: "long",
       day: "numeric",
     });
@@ -106,7 +107,7 @@ function updateTableData(data) {
     setValue("ventes", donee.sold, { parent: element });
     setValue("restes", donee.leftOver, { parent: element });
     fragment.appendChild(element);
-  };
+  }
   tableBody.appendChild(fragment);
 }
 function setValue(input, value, { parent = document } = {}) {

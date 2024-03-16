@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head.ejs') %>
+
   <body>
+  <% if ( typeof redirect !== undefined) { %>
+    <form id="form-login" action="<%= redirect %>" method="POST">
+  <% } else { %>
     <form id="form-login" action="/" method="POST">
+  <% } %>
       <div class="form-heading">
         <h1 class="title">Se Connecter</h1>
       </div>

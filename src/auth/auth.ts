@@ -12,6 +12,7 @@ function authenticateToken(
   res: express.Response,
   next: express.NextFunction
 ) {
+  const originalUrl = req.originalUrl !== "/data" ? req.originalUrl : null;
   const cookies = cookie.parse(req.headers.cookie || "");
   const token = cookies?.wftk;
 
@@ -19,14 +20,16 @@ function authenticateToken(
     return res.status(401).render("index", {
       error: "Veuillez vous connecter",
       page: "index",
+      redirect:
+        originalUrl !== null ? `/?redirect=${originalUrl.split("/").at(-1)}` : "/",
     });
-    
   }
   jwt.verify(token, accessTokenSecret!, function (err) {
     if (err) {
       return res.status(403).render("index", {
         error: "Veuillez vous connecter",
         page: "index",
+        redirect: originalUrl !== null ? `/?redirect=${originalUrl.split("/").at(-1)}` : "/",
       });
     }
     next();

@@ -5,15 +5,20 @@ import { compare } from "bcrypt";
 const { ACCESS_TOKEN_SECRET: accessTokenSecret } = process.env;
 const router = Router();
 
-router.get("/", (_req, res) => res.render("index", { page: "index" }));
+router.get("/", (_req, res) =>
+  res.render("index", { page: "index", redirect: "/" })
+);
 
 router.post("/", async (req, res) => {
   const { password }: { password?: string } = req.body;
+  const { redirect }: { redirect?: string } = req.query;
 
+  const finalPage = redirect || "next";
   if (!password?.trim()) {
     return res.status(400).render("index", {
       error: "Mot de passe manquant",
       page: "index",
+      redirect: req.originalUrl !== "/" ? "/?redirect=" + finalPage : "/",
     });
   }
 
@@ -24,7 +29,7 @@ router.post("/", async (req, res) => {
         error: err.message,
       });
     }
-    const _row: any = row;
+    const _row = row as { password: string | undefined };
     if (_row && (await compare(password, _row.password || ""))) {
       const user = { name: "admin" };
       const accessToken = jwt.sign(user, accessTokenSecret!);
@@ -33,11 +38,12 @@ router.post("/", async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 300_000),
       });
-      return res.render("next", { page: "next" });
+      return res.redirect(finalPage);
     } else {
       return res.render("index", {
         page: "index",
         error: "Mot de passe incorrect",
+        redirect: (req.originalUrl !== '/') ? "/?redirect=" + finalPage : "/",
       });
     }
   });

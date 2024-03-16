@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { db } from "../db/init.js";
+import authenticateToken from "../auth/auth.js";
 const router = Router();
 
-router.get("/", async (_req, res) => {
+router.get("/", authenticateToken, async (_req, res) => {
   db.all("SELECT * FROM gestion_de_stock", function (err, rows) {
     if (err) return;
     const _rows: any[] = rows;
@@ -21,7 +22,7 @@ router.get("/", async (_req, res) => {
     const output = _rr?.sort((a, b) => {
       const _a = a.date.split("/");
       const _b = b.date.split("/");
-
+      
       const [year_a, month_a, day_a] = _a;
       const [year_b, month_b, day_b] = _b;
 

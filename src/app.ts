@@ -33,4 +33,7 @@ app.use("/reset", resetRouter);
 app.use("/donee", doneeRouter);
 app.use("/data", dataRouter);
 
+// Handle 404
+app.use((_req, res) => res.render("404", { page: "404" }));
+
 app.listen(port || 3000, () => logger.log("listening on port http://localhost:" + port || 3000));
