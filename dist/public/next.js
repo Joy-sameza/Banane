@@ -46,7 +46,7 @@ window.addEventListener("keydown", (e) => {
  * @param {string} element - The ID of the element to retrieve the value from.
  * @return {any} The value of the element.
  */
-function getValue(element) {
+function getValueWithinModal(element) {
   return modal.querySelector("#" + element).value;
 }
 const date = new Date();

@@ -10,8 +10,15 @@ body {
 
 main {
   /* display: ; */
-  margin-inline: 3em;
+  /* margin-inline: 3em; */
   padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+section {
+  margin-bottom: 3rem;
 }
 
 .page-title {
@@ -69,8 +76,15 @@ hr {
   display: grid;
   grid-template-columns: 40% 1fr;
   column-gap: 0.5rem;
+  justify-content: space-around;
 }
 
 .card .card-body .cell .value {
   text-wrap: break-word;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--input-hover) var(--form-bgc);
+  scroll-behavior: smooth;
 }

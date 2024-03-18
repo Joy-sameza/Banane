@@ -61,6 +61,37 @@ router.post("/", authenticateToken, (req, res) => {
       page: "next",
     });
   }
+
+  // Auto add and calculate data in monthly_total table in database
+
+  try {
+    const sql = `
+      SELECT 
+        SUM(restes) as restes, 
+        SUM(produits) as produits, 
+        SUM(ventes) as ventes, 
+        SUM(dette) as dette, 
+        SUM(achats) as achats 
+      FROM gestion_de_stock 
+      WHERE "date" <= "${sqlDate}"
+    `;
+    const _query = `SELECT 
+      SUM(restes) as restes,
+      SUM(produits) as produits,
+      SUM(ventes) as ventes,
+      SUM(dette) as dette,
+      SUM(achats) as achats
+    FROM gestion_de_stock 
+    WHERE 
+      substr("date", 1, 4) = ${year} AND 
+      substr("date", 6, 2) >= ${month} AND 
+      substr("date", 9, 2) >= ${day}`;
+      const newData = Object.fromEntries<string>([]);
+
+  } catch (error) {
+    
+  }
+
 });
 
 /**

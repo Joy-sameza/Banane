@@ -9,6 +9,7 @@ import resetRouter from "./routes/resetRouter.js";
 import doneeRouter from "./routes/doneeRouter.js";
 import dataRouter from "./routes/dataRouter.js";
 import indexRouter from "./routes/indexRouter.js";
+import monthlyDataRouter from "./routes/monthlyDataRouter.js";
 config();
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/next", nextRouter);
 app.use("/reset", resetRouter);
 app.use("/donee", doneeRouter);
 app.use("/data", dataRouter);
+app.use('/monthlydata', monthlyDataRouter);
 
 // Handle 404
 app.use((_req, res) => res.render("404", { page: "404" }));
