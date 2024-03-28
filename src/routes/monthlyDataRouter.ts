@@ -98,8 +98,7 @@ router.get("/", (_req, res) => {
         z[key] = value;
       });
     }
-
-    res.json([]);
+    res.json(z);
   });
 });
 

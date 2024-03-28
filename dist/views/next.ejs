@@ -14,73 +14,8 @@
     <link rel="manifest" href="/images/site.webmanifest.json" />
   </head>
   <body>
-    <div class="data-input modal">
-      <form method="post" action="/next">
-        <div class="form-heading">
-          <h1 class="title">Donnée Journalière</h1>
-          <input
-            class="close-modal"
-            type="button"
-            value="&times;"
-            title="Appuiyer sur Esc"
-            style="
-              background: none;
-              width: min-content;
-              height: min-content;
-              font-size: 2.5rem;
-              position: absolute;
-              right: 0;
-              top: 0;
-              cursor: pointer;
-            "
-          />
-        </div>
-        <div class="mb-3">
-          <label for="date" class="form-label">Date</label>
-          <input type="date" name="date" id="date" />
-          <small
-            id="helpId"
-            class="text-muted"
-            style="display: block; opacity: 1; color: #888; cursor: default"
-          >
-            Date d'aujourd'hui (Par défaut)</small
-          >
-        </div>
-        <div class="mb-3">
-          <label for="achats" class="form-label">Achats</label>
-          <input type="text" inputmode="numeric" name="achats" id="achats"
-          value="<%= (typeof achats === "undefined")? "" : achats %>"
-          pattern="[0-9]*"/>
-        </div>
-        <div class="mb-3">
-          <label for="produits" class="form-label">Produits</label>
-          <input type="text" inputmode="numeric" name="produits" id="produits"
-          pattern="[0-9]*" value="<%= (typeof produits === "undefined")? "" :
-          produits %>" />
-        </div>
-        <div class="mb-3">
-          <label for="ventes" class="form-label">Ventes</label>
-          <input type="text" inputmode="numeric" pattern="[0-9]*" name="ventes"
-          id="ventes" value="<%= (typeof ventes === "undefined")? "" : ventes
-          %>" />
-        </div>
-        <div class="mb-3">
-          <label>Dette</label>
-          <input type="checkbox" id="isDette" />
-        </div>
-        <div class="mb-3" id="detteBox">
-          <label for="dette">Dette? Combien...</label>
-          <input
-            type="text"
-            inputmode="numeric"
-            name="dette"
-            id="dette"
-            pattern="[0-9]*"
-          />
-        </div>
-        <button id="save" type="submit">Sauvegarder</button>
-      </form>
-    </div>
+    <%- include('partials/dataModal.ejs') %> <%-
+    include('partials/depences.ejs') %>
     <h1 data-month-year></h1>
     <input
       type="button"
@@ -121,7 +56,7 @@
         <th>Ventes</th>
         <th>Restes</th>
       </thead>
-      <tbody class="table-body"></tbody>
+      <tbody class="table-body" style="pointer-events: all"></tbody>
     </table>
 
     <%# include("partials/msg.succes.ejs") %>
@@ -137,11 +72,29 @@
         <button type="button" id="modify">Modifier</button>
       </tr>
     </template>
-    <script src="next.js" type="module"></script>
+    <script src="js/next.js" type="module"></script>
     <% if (typeof error !== "undefined") { %>
     <script>
       alert("<%= error %>");
     </script>
     <% } %>
+    <script>
+      function highlight() {
+        const tableBody = document.querySelector("tbody");
+        tableBody.addEventListener("click", (e) => {
+          const target = e.target;
+          const tr = target.closest("tr");
+          const initialBackgroundColor = tr.style.backgroundColor;
+
+          tr.style.backgroundColor = "#ddd";
+          tr.style.color = "#222";
+          tr.addEventListener("mouseout", () => {
+            tr.style.backgroundColor = initialBackgroundColor;
+            tr.style.color = null;
+          });
+        });
+      }
+      highlight();
+    </script>
   </body>
 </html>

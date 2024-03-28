@@ -72,12 +72,12 @@ input[type="button"].open-modal:hover {
   text-decoration: underline;
   color: #fff;
 }
-#detteBox {
+/* #detteBox {
   display: none;
-}
-:has(#isDette:checked) + #detteBox {
-  display: grid;
-}
+} */
+/* :has(#isDette:checked) + .depences {
+  display: flex;
+} */
 .pointer-none {
   pointer-events: none;
 }
@@ -97,8 +97,23 @@ tr:hover > button#modify {
   display: block;
 }
 
-@media (preferred-color-scheme = "light") {
+@media (preferred-color-scheme: "light") {
   body {
     filter: hue-rotate(180);
   }
+}
+
+.depences {
+  z-index: 10;
+  backdrop-filter: blur(3px);
+}
+
+.depences form {
+  min-height: max(80vh, 500px);
+}
+body:has(#isDette:checked) .depences {
+  display: grid;
+}
+body:has(#isDette:not(:checked)) .depences {
+  display: none;
 }

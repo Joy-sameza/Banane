@@ -6,8 +6,15 @@ const monthYear = document.querySelector("[data-month-year]");
 const rowInfoTemplate = document.querySelector("#template-row-info");
 const tableBody = document.querySelector(".table-body");
 
+const depencesModal = document.querySelector(".depences.modal");
+const closeDepencesModal = depencesModal.querySelector(".close-modal");
+// const openDepencesModal = depencesModal.querySelector(".open-modal");
+const depences = document.querySelector(".depences");
+
 let response = await fetch("./data");
 const data = await response.json();
+depencesModal.setAttribute("aria-hidden", true);
+let isDepencesModalOpen = false;
 // Save response to localStorage for later use
 localStorage.setItem("bananes_data", JSON.stringify(data));
 
@@ -37,6 +44,13 @@ openModal.addEventListener("click", () => {
   setTimeout(() => (modal.style.opacity = "1"), 200);
 });
 window.addEventListener("keydown", (e) => {
+  if (isDepencesModalOpen) {
+    if (e.key === "a" && depencesModal.style.display === "none")
+      openDepencesModal.click();
+    if (e.key === "Escape" && depencesModal.style.display === "grid")
+      closeDepencesModal.click();
+    return;
+  }
   if (e.key === "a" && modal.style.display === "none") openModal.click();
   if (e.key === "Escape" && modal.style.display === "grid") closeModal.click();
 });
@@ -113,3 +127,14 @@ function updateTableData(data) {
 function setValue(input, value, { parent = document } = {}) {
   parent.querySelector(`[data-${input}]`).textContent = value;
 }
+
+// openDepencesModal.addEventListener("click", () => {
+//   depencesModal.setAttribute("aria-hidden", false);
+//   depencesModal.style.display = "grid";
+//   setTimeout(() => (depencesModal.style.opacity = "1"), 200);
+// });
+closeDepencesModal.addEventListener("click", () => {
+  depencesModal.setAttribute("aria-hidden", true);
+  depencesModal.style.opacity = "0";
+  setTimeout(() => (depencesModal.style.display = "none"), 510);
+});

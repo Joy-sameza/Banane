@@ -26,13 +26,13 @@ const sql = `CREATE TABLE IF NOT EXISTS users (
 // create table gestion_de_stock
 const sql3 = `
   CREATE TABLE IF NOT EXISTS gestion_de_stock ( 
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    "date" DATE NOT NULL DEFAULT CURRENT_DATE, 
-    "dette" INTEGER NOT NULL DEFAULT 0, 
-    "achats" INTEGER NOT NULL DEFAULT 0, 
-    "produits" INTEGER NOT NULL DEFAULT 0, 
-    "restes" INTEGER NOT NULL DEFAULT 0, 
-    "stocks" INTEGER NOT NULL DEFAULT 0, 
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    "date" INTEGER NOT NULL UNIQUE,
+    "dette" INTEGER NOT NULL DEFAULT 0,
+    "achats" INTEGER NOT NULL DEFAULT 0,
+    "produits" INTEGER NOT NULL DEFAULT 0,
+    "restes" INTEGER NOT NULL DEFAULT 0,
+    "stocks" INTEGER NOT NULL DEFAULT 0,
     "ventes" INTEGER NOT NULL DEFAULT 0
   );`;
 

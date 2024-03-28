@@ -1,0 +1,36 @@
+<% if (!data) { return ''; } %> <% %>
+<div class="card-detail">
+  <div class="card-title">
+    <h2 class="title" style="text-transform: uppercase">
+      Données de <%= new Date(date + "-01").toLocaleDateString("fr-CM", { month:
+      "long", year: "numeric", }) %>
+    </h2>
+  </div>
+  <div class="body">
+    <table class="table">
+      <thead>
+        <th>Dates</th>
+        <th>Achats</th>
+        <th>Produits</th>
+        <th>Stocks</th>
+        <th>Ventes</th>
+        <th>Restes</th>
+      </thead>
+      <tbody class="table-body">
+        <% for (const row of data) { %>
+        <tr id="<%- row.id %>">
+          <td data-dates>
+            <%- new Date( row.date.split("/").reverse().join("-")
+            ).toLocaleDateString("fr", { weekday: "long", day: "numeric", }) %>
+          </td>
+          <td data-achats><%- row.achats %></td>
+          <td data-produits><%- row.produits %></td>
+          <td data-stocks><%- row.stocks %></td>
+          <td data-ventes><%- row.ventes %></td>
+          <td data-restes><%- row.restes %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

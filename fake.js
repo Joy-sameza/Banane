@@ -1,9 +1,12 @@
-// import { faker } from "@faker-js/faker";
+import { config } from 'dotenv';
+config()
+
+const { PORT: port} = process.env;
 
 /**
- * Generates a list of days from 2023 to 2024 in the format 'YYYY-MM-DD'.
+ * Generates a list of days from 2023 to 2024 in the format of UNIX timestamps.
  *
- * @return {string[]} The list of days in 'YYYY-MM-DD' format
+ * @return {number[]} The list of days in UNIX timestamp format
  */
 function generateDay() {
   const daysList = [];
@@ -11,10 +14,8 @@ function generateDay() {
     for (let month = 0; month < 12; month++) {
       const days = new Date(year, month + 1, 0).getDate();
       for (let day = 1; day <= days; day++) {
-        const thisDay = `${year}-${(month + 1)
-          .toString()
-          .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-        daysList.push(thisDay);
+        const thisDay = new Date(year, month, day).getTime() / 1000;
+        daysList.push(Math.floor(thisDay));
       }
     }
   }
@@ -43,7 +44,7 @@ function generateSales(maximum = 12_000, minimum = 1_000) {
  * @return {Promise<string | null>} The authentication token.
  */
 async function authenticate() {
-  const response = await fetch("http://localhost:80/", {
+  const response = await fetch(`http://localhost:${port}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +53,9 @@ async function authenticate() {
   });
 
   if (!response.ok)
-    console.error("Authentication failed with a status code", response.status);
+    throw new Error(
+      "Authentication failed with a status code " + response.status
+    );
   const cookies = response.headers.get("set-cookie");
   return cookies;
 }
@@ -66,7 +69,7 @@ async function authenticate() {
  * @throws Http status error code
  */
 async function sendDataWithCookie(data, cookie) {
-  const response = await fetch("http://localhost:80/next", {
+  const response = await fetch(`http://localhost:${port}/next`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -90,7 +93,7 @@ async function main() {
   for (const day of days) {
     const thisDay = new Date(day);
     if (
-      thisDay.toLocaleDateString("en-US", { weekday: "short" }) === "Tue" ||
+      thisDay.toLocaleDateString("en-UK", { weekday: "short" }) === "Tue" ||
       thisDay.toLocaleDateString("en-UK", {
         day: "numeric",
         month: "short",

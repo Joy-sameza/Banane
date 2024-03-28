@@ -2,6 +2,7 @@ node_modules
 dist/auth
 dist/db
 dist/routes
+dist/models
 dist/public/theme
 dist/*.js
 build

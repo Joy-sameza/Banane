@@ -36,6 +36,6 @@ app.use("/data", dataRouter);
 app.use('/monthlydata', monthlyDataRouter);
 
 // Handle 404
-app.use((_req, res) => res.render("404", { page: "404" }));
+app.use((_req, res) => res.status(404).render("404", { page: "404" }));
 
 app.listen(port || 3000, () => logger.log("listening on port http://localhost:" + port || 3000));

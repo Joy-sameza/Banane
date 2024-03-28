@@ -1,7 +1,7 @@
 <% if (data) { for (const year in data) { const yearData = data[year]; %>
 <section>
   <div class="page-title">
-    <h1 class="title">Donnée de <%- year %></h1>
+    <h1 class="title">Donnée de <%= year %></h1>
   </div>
   <div class="card-grid">
     <% for (const month in yearData) { const monthData = yearData[month]; const
