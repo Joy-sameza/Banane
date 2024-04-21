@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 
   db.get("SELECT password FROM users LIMIT 1;", async function (err, row) {
     if (err) {
-      return res.render("index", {
+      return res.status(500).render("index", {
         page: "index",
         error: err.message,
       });
@@ -33,10 +33,10 @@ router.post("/", async (req, res) => {
     if (_row && (await compare(password, _row.password || ""))) {
       const user = { name: "admin" };
       const accessToken = jwt.sign(user, accessTokenSecret!);
-      res = res.setHeader("Authorization", "Bearer " + accessToken);
+      res = res.header("Authorization", "Bearer " + accessToken);
       res.cookie("wftk", accessToken, {
         httpOnly: true,
-        expires: new Date(Date.now() + 300_000),
+        expires: new Date(Date.now() + 300_000), // Cookie expires after 5 minutes
       });
       return res.redirect(finalPage);
     } else {

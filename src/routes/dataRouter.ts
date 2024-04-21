@@ -17,7 +17,7 @@ router.get("/", authenticateToken, async (req, res) => {
         achats: r.achats,
         ventes: r.ventes,
         dette: r.dette,
-        stocks: r.produits,
+        stocks: r.stocks,
         produits: r.produits,
       };
     });

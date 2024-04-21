@@ -13,38 +13,49 @@ router.get("/", authenticateToken, (_req, res) => {
 
 router.post("/", authenticateToken, (req, res) => {
   const { date, achats, produits, ventes, dette }: IcomminData = req.body;
+  if (!date) {
+    res.render("next", {
+      error: "Veuillez renseigner une date",
+      achats,
+      produits,
+      ventes,
+      page: "next",
+    });
+    return;
+  }
+  const dd = Math.floor(Date.parse(date) / 1000);
 
   const query = `
     SELECT 
       id,
-      MAX(date) as date,
+      date,
       restes
     FROM gestion_de_stock
+    WHERE date < "${dd}"
+    ORDER BY date DESC
+    LIMIT 1
     `;
 
   try {
     db.all(query, (err, rows) => {
-      if (err) throw err;
-      const index = rows?.length - 1;
-      const lastRow: any = rows && rows[index < 0 ? 0 : index];
-
-      console.log({ rows });
-
-      //verify if data already exist
-      if (!lastRow && lastRow.date != date) {
-        res.render("next", {
-          error: "Donné existant",
+      if (err) {
+        logger.error(`${timeMsg}\n\tError: ${err}`);
+        res.status(500).render("next", {
+          error: "Une erreur est survenue",
           achats,
           produits,
           ventes,
+          date,
           page: "next",
         });
-        return;
       }
+      const index = rows?.length - 1;
+      const lastRow: any = rows && rows[index < 0 ? 0 : index];
 
-      if (!date) {
+      //verify if data already exist
+      if (lastRow && lastRow.date == date) {
         res.render("next", {
-          error: "Veuillez renseigner une date",
+          error: "Donné existant",
           achats,
           produits,
           ventes,
@@ -166,6 +177,5 @@ function formatDate(date: string): number {
   const d = new Date(date).getTime() / 1000;
   return Math.floor(d);
 }
-
 
 export default router;

@@ -41,7 +41,7 @@ router.get("/", (_req, res) => {
     const months = new Set<number>();
 
     for (const row of _rows) {
-      const [year, month] = row.date.split("-");
+      const [year, month] = formatDate(parseInt(row.date));
       years.add(parseInt(year));
       months.add(parseInt(month));
     }
@@ -53,8 +53,8 @@ router.get("/", (_req, res) => {
         const result = _rows.reduce(
           (previousValue, currentValue) => {
             if (
-              yy === parseInt(currentValue.date.split("-")[0]) &&
-              mm === parseInt(currentValue.date.split("-")[1])
+              yy === parseInt(formatDate(parseInt(currentValue.date))[0]) &&
+              mm === parseInt(formatDate(parseInt(currentValue.date))[1])
             ) {
               return {
                 achats: previousValue.achats + currentValue.achats,
@@ -103,3 +103,11 @@ router.get("/", (_req, res) => {
 });
 
 export default router;
+
+function formatDate(date: number): string[] {
+  const d = new Date(date * 1000)
+    .toLocaleDateString("en-UK")
+    .split("/")
+    .reverse();
+  return d;
+}

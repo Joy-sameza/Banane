@@ -1,7 +1,7 @@
-import { config } from 'dotenv';
-config()
+import { config } from "dotenv";
+config();
 
-const { PORT: port} = process.env;
+const { PORT: port } = process.env;
 
 /**
  * Generates a list of days from 2023 to 2024 in the format of UNIX timestamps.
@@ -14,8 +14,8 @@ function generateDay() {
     for (let month = 0; month < 12; month++) {
       const days = new Date(year, month + 1, 0).getDate();
       for (let day = 1; day <= days; day++) {
-        const thisDay = new Date(year, month, day).getTime() / 1000;
-        daysList.push(Math.floor(thisDay));
+        const thisDay = new Date(year, month, day).getTime();
+        daysList.push(thisDay);
       }
     }
   }
@@ -44,20 +44,19 @@ function generateSales(maximum = 12_000, minimum = 1_000) {
  * @return {Promise<string | null>} The authentication token.
  */
 async function authenticate() {
-  const response = await fetch(`http://localhost:${port}`, {
+  const response = await fetch(`http://localhost:${port}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password: "123" }),
   });
-
   if (!response.ok)
     throw new Error(
       "Authentication failed with a status code " + response.status
     );
   const cookies = response.headers.get("set-cookie");
-  return cookies;
+  return cookies ?? "";
 }
 
 /**
@@ -87,6 +86,7 @@ async function sendDataWithCookie(data, cookie) {
 
 async function main() {
   const days = generateDay();
+  console.log({ days });
 
   let restes = 0;
   let stocks = 0;
@@ -111,7 +111,8 @@ async function main() {
     restes = stocks - ventes;
     const _dette = [generateSales(5_000), 0];
     const dette = _dette[Math.ceil(Math.random())];
-    const authCookie = await authenticate();
+    const authCookie =
+      "wftk=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MTM3MTA1MjZ9.TiHM5q6oiX0jzuERvhPU4DHOx6TkrwzuIcXMPjWm4-4"; //await authenticate();
     await sendDataWithCookie(
       { date: day, achats, produits, ventes, dette },
       authCookie
