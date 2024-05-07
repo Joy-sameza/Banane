@@ -1,4 +1,4 @@
-<% if (typeof success !== undefined) { %>
+<% if (success) { %>
 <div class="alert alert-success" role="alert" id="alert">
   <div class="message">
     <button
@@ -19,8 +19,8 @@
 
 <script>
   window.addEventListener("DOMContentLoaded", () => {
-    const closeAlert = document.querySelector("#closeAlert");
-    const alertBox = document.querySelector("#alert");
+    const closeAlert = document.getElementById("closeAlert");
+    const alertBox = document.getElementById("alert");
     closeAlert.addEventListener("click", () => {
       alertBox.classList.remove("in_animation");
       alertBox.classList.add("out_animation");
