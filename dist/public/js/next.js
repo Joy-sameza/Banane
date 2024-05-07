@@ -41,6 +41,7 @@ closeModal.addEventListener("click", () => {
 openModal.addEventListener("click", () => {
   modal.setAttribute("aria-hidden", false);
   modal.style.display = "grid";
+  modal.scrollIntoView();
   setTimeout(() => (modal.style.opacity = "1"), 200);
 });
 window.addEventListener("keydown", (e) => {
@@ -138,3 +139,43 @@ closeDepencesModal.addEventListener("click", () => {
   depencesModal.style.opacity = "0";
   setTimeout(() => (depencesModal.style.display = "none"), 510);
 });
+
+/**
+ * @param {Event} event
+ */
+function btnClicked(event) {
+  const target = event.target;
+  const parentRow = target.closest("tr");
+
+  /**
+   *
+   * @param {string} input variable name for the required value
+   * @returns {string}
+   */
+  function getValue(input) {
+    return parentRow.querySelector(`[data-${input}]`).textContent;
+  }
+
+  const thisDates = getValue("dates").split(" ").at(-1).padStart(2, "0");
+  const thisAchats = getValue("achats");
+  const thisProduits = getValue("produits");
+  const thisVentes = getValue("ventes");
+
+  const formatedDate = `${today.year}-${thisMonth
+    .toString()
+    .padStart(2, "0")}-${thisDates}`;
+
+  form.querySelector("#date").value = formatedDate;
+  form.querySelector("#achats").value = thisAchats;
+  form.querySelector("#produits").value = thisProduits;
+  form.querySelector("#ventes").value = thisVentes;
+
+  const openModal = document.querySelector(".open-modal");
+  openModal.click();
+}
+
+const modifBtns = document.querySelectorAll("#modify");
+
+for (const btn of modifBtns) {
+  btn.addEventListener("click", btnClicked);
+}

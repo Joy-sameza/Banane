@@ -55,11 +55,10 @@
         <th>Stocks</th>
         <th>Ventes</th>
         <th>Restes</th>
+        <th></th>
       </thead>
       <tbody class="table-body" style="pointer-events: all"></tbody>
     </table>
-
-    <%# include("partials/msg.succes.ejs") %>
 
     <template id="template-row-info">
       <tr>
@@ -69,32 +68,12 @@
         <td data-stocks></td>
         <td data-ventes></td>
         <td data-restes></td>
-        <button type="button" id="modify">Modifier</button>
+        <td>
+          <button type="button" id="modify">Modifier</button>
+        </td>
       </tr>
     </template>
     <script src="js/next.js" type="module"></script>
-    <% if (typeof error !== "undefined") { %>
-    <script>
-      alert("<%= error %>");
-    </script>
-    <% } %>
-    <script>
-      function highlight() {
-        const tableBody = document.querySelector("tbody");
-        tableBody.addEventListener("click", (e) => {
-          const target = e.target;
-          const tr = target.closest("tr");
-          const initialBackgroundColor = tr.style.backgroundColor;
-
-          tr.style.backgroundColor = "#ddd";
-          tr.style.color = "#222";
-          tr.addEventListener("mouseout", () => {
-            tr.style.backgroundColor = initialBackgroundColor;
-            tr.style.color = null;
-          });
-        });
-      }
-      highlight();
-    </script>
+    <%- include('partials/msg.success.ejs') %>
   </body>
 </html>

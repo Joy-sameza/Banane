@@ -2,7 +2,6 @@ window.onload = function () {
   window.scrollTo(0, document.body.scrollHeight);
 };
 
-console.log({ Document });
 /**
  * A function that starts a view transition and calls a callback if the document has the startViewTranstion property.
  *

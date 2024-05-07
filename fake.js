@@ -4,17 +4,30 @@ config();
 const { PORT: port } = process.env;
 
 /**
- * Generates a list of days from 2023 to 2024 in the format of UNIX timestamps.
+ * Generates a list of working days from 2023 to 2024 in the format of UNIX timestamps.
  *
  * @return {number[]} The list of days in UNIX timestamp format
  */
-function generateDay() {
+function generateWorkingDays() {
   const daysList = [];
   for (let year = 2023; year <= 2024; year++) {
     for (let month = 0; month < 12; month++) {
       const days = new Date(year, month + 1, 0).getDate();
       for (let day = 1; day <= days; day++) {
         const thisDay = new Date(year, month, day).getTime();
+        const hisDay = new Date(thisDay);
+        if (
+          hisDay.toLocaleDateString("en-UK", { weekday: "short" }) === "Tue" ||
+          hisDay.toLocaleDateString("en-UK", {
+            day: "numeric",
+            month: "short",
+          }) === "1 Jan" ||
+          hisDay.toLocaleDateString("en-UK", {
+            day: "numeric",
+            month: "short",
+          }) === "25 Dec"
+        )
+          continue;
         daysList.push(thisDay);
       }
     }
@@ -85,36 +98,28 @@ async function sendDataWithCookie(data, cookie) {
 }
 
 async function main() {
-  const days = generateDay();
-  console.log({ days });
+  const days = generateWorkingDays();
 
   let restes = 0;
   let stocks = 0;
   for (const day of days) {
-    const thisDay = new Date(day);
-    if (
-      thisDay.toLocaleDateString("en-UK", { weekday: "short" }) === "Tue" ||
-      thisDay.toLocaleDateString("en-UK", {
-        day: "numeric",
-        month: "short",
-      }) === "1 Jan" ||
-      thisDay.toLocaleDateString("en-UK", {
-        day: "numeric",
-        month: "short",
-      }) === "25 Dec"
-    )
-      continue;
-    const achats = generateSales();
     const produits = generateSales();
+    const achats = generateSales(produits * 0.5, 0);
     stocks = produits + restes;
     const ventes = generateSales(stocks);
     restes = stocks - ventes;
     const _dette = [generateSales(5_000), 0];
-    const dette = _dette[Math.ceil(Math.random())];
+    const dette = _dette[Math.round(Math.random())];
     const authCookie =
       "wftk=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MTM3MTA1MjZ9.TiHM5q6oiX0jzuERvhPU4DHOx6TkrwzuIcXMPjWm4-4"; //await authenticate();
     await sendDataWithCookie(
-      { date: day, achats, produits, ventes, dette },
+      {
+        date: new Date(day).toLocaleDateString().split("/").reverse().join("-"),
+        achats,
+        produits,
+        ventes,
+        dette,
+      },
       authCookie
     );
   }

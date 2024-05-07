@@ -10,7 +10,49 @@
     >
       &times;
     </button>
-    <p><% success %></p>
+    <p><%= success %></p>
+  </div>
+  <div class="bottom_unloader">
+    <div class="thumb"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const closeAlert = document.getElementById("closeAlert");
+    const alertBox = document.getElementById("alert");
+    closeAlert.addEventListener("click", () => {
+      alertBox.classList.remove("in_animation");
+      alertBox.classList.add("out_animation");
+      setTimeout(() => {
+        alertBox.style.display = "none";
+      }, 750);
+    });
+    setTimeout(() => {
+      alertBox.style.display = "block";
+      alertBox.classList.add("in_animation");
+      setTimeout(() => {
+        closeAlert.click();
+      }, 4_000);
+    }, 100);
+  });
+</script>
+<% } %>
+
+
+<% if (error) { %>
+ <div class="alert alert-error" role="alert" id="alert">
+  <div class="message">
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+      id="closeAlert"
+    >
+      &times;
+    </button>
+    <p><%= error %></p>
   </div>
   <div class="bottom_unloader">
     <div class="thumb"></div>

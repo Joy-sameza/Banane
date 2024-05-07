@@ -8,7 +8,7 @@ type lastRowDataType = object & { restes: number };
 type IcomminData = { [key: string]: string | null | undefined };
 
 router.get("/", authenticateToken, (_req, res) => {
-  res.render("next", { page: "next" });
+  res.render("next", { page: "next", error: 0, success: 0 });
 });
 
 router.post("/", authenticateToken, (req, res) => {
@@ -20,11 +20,12 @@ router.post("/", authenticateToken, (req, res) => {
       produits,
       ventes,
       page: "next",
+      success: 0,
     });
     return;
   }
-  const dd = Math.floor(Date.parse(date) / 1000);
 
+  const dd = formatDate(date);
   const query = `
     SELECT 
       id,
@@ -47,7 +48,9 @@ router.post("/", authenticateToken, (req, res) => {
           ventes,
           date,
           page: "next",
+          success: 0,
         });
+        return;
       }
       const index = rows?.length - 1;
       const lastRow: any = rows && rows[index < 0 ? 0 : index];
@@ -60,6 +63,7 @@ router.post("/", authenticateToken, (req, res) => {
           produits,
           ventes,
           page: "next",
+          success: 0,
         });
         return;
       }
@@ -76,6 +80,7 @@ router.post("/", authenticateToken, (req, res) => {
       res.render("next", {
         success: msg,
         page: "next",
+        error: 0,
       });
       logger.log(`${timeMsg}\n\t${msg}`);
       return;
@@ -88,6 +93,7 @@ router.post("/", authenticateToken, (req, res) => {
       produits,
       ventes,
       page: "next",
+      success: 0,
     });
   }
 
@@ -174,8 +180,12 @@ function saveData(
  * @return {number} The formatted date in seconds since epoch.
  */
 function formatDate(date: string): number {
-  const d = new Date(date).getTime() / 1000;
-  return Math.floor(d);
+  const dt = Date.parse(date);
+  const timezoneOffet = new Date().getTimezoneOffset();
+  const numOfMilisPerDay = 24 * 3600 * 1000;
+  const flooredDate = dt - (dt % numOfMilisPerDay) + timezoneOffet * 60 * 1000;
+
+  return Math.floor(flooredDate / 1000);
 }
 
 export default router;
