@@ -1,10 +1,7 @@
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
 import cookie from "cookie";
 import express from "express";
-config();
-
-const { ACCESS_TOKEN_SECRET: accessTokenSecret } = process.env;
+import { accessTokenSecret } from "../config.js";
 
 // middleware
 function authenticateToken(

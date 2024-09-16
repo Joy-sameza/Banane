@@ -1,11 +1,8 @@
 import { Router } from "express";
 import authenticateToken from "../auth/auth.js";
 import fetch from "node-fetch";
-import { config } from "dotenv";
+import { appURL } from "../config.js";
 const router = Router();
-config();
-
-const { APP_URL: appURL } = process.env;
 
 router.get("/", authenticateToken, async function (req, res) {
   const { query }: { query?: string } = req.query;
